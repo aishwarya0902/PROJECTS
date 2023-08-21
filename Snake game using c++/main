@@ -1,0 +1,81 @@
+#include <iostream>
+#include <windows.h>
+#include <header.h>
+#include <conio.h>
+#include <food.h>
+#include <vector>
+using namespace std;
+//for gamespace
+#define width 50
+#define height 30
+//ASCII VALUE for arrows
+#define up_key 72
+#define down_key 80
+#define right_key 77
+#define left_key  75
+
+header snake({width/2,height/2});// class and object for snake positions
+food  foods;//class and object for food positions
+
+void board(){
+    vector<COORD>snakebody=snake.get_sbody();
+    for(int i=0;i<=height+1; i++){
+            cout << "\t\t\t";
+            COORD f_pos = foods.get_food_pos();
+        for(int j=0 ; j<=width+1;j++){
+            if(i==0 || i == height+1 || j == 0 || j == width+1){
+                cout << "#";
+            }else if(i == f_pos.Y && j == f_pos.X){
+                cout << "*";
+            }else{
+                bool snakepos = false;
+                for(int k = 0;k < snakebody.size();k++){
+                    if(i == snakebody[k].Y &&
+                       j == snakebody[k].X){
+                        cout<<"o";
+                        snakepos = true;
+                       }
+                }
+                if(!snakepos){
+                    cout<<" ";
+                }
+            }
+        }
+        cout << endl;
+    }
+
+}
+
+
+
+int main()
+{
+    while(true){
+        Sleep(100);
+        board();
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),{0,0});
+        // keyboard hits and directions
+        if(kbhit()){
+            switch(getch()){
+            case up_key: snake.setDir('u'); break;
+            case down_key: snake.setDir('d'); break;
+            case right_key: snake.setDir('r'); break;
+            case left_key: snake.setDir('l'); break;
+
+            }
+        }
+        snake.move_snake();// movement of snake
+        if(snake.collide()){
+            cout << "GAME OVER"; //if snake hits the wall
+            break;
+        }
+        if(snake.eatan(foods)){ //if snake eaten the food and grow the length
+            snake.grow();
+            foods.gen_food();
+        }
+    }
+
+    system("pause>0");
+    return 0;
+
+}
