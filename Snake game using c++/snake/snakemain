@@ -1,0 +1,48 @@
+#include "header.h"
+#include<vector>
+#define width 50
+#define height 30
+using namespace std;
+header::header(COORD pos){
+    this->pos = pos;
+    len = 1;
+    s_body.push_back(pos);
+}
+COORD header::getPos(){
+    return pos;
+}
+void header::setDir(int d){
+    dir = d;
+}
+void header::move_snake(){
+    switch(dir){
+    case 'u':pos.Y--;break;
+    case 'd':pos.Y++; break;
+    case 'r':pos.X++; break;
+    case 'l':pos.X--;break;
+    }
+    s_body.push_back(pos);
+    if(s_body.size() > len){
+        s_body.erase(s_body.begin());
+    }
+
+}
+bool header::collide(){
+    if(pos.X == 0 || pos.X == width+1 || pos.Y == 0 || pos.Y == height+1)
+        return true;
+    return false;
+}
+
+bool header::eatan(food &foods){
+    if(pos.X == foods.get_food_pos().X &&
+       pos.Y == foods.get_food_pos().Y){
+        return true;
+       }
+       return false;
+}
+void header::grow(){
+    len++;
+}
+vector<COORD> header::get_sbody(){
+    return s_body;
+}
