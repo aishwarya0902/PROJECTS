@@ -1,0 +1,26 @@
+#ifndef HEADER_H
+#define HEADER_H
+#include <windows.h>
+#include <food.h>
+#include<vector>
+using namespace std;
+class header
+{
+private:
+    COORD pos;
+    int len;
+    int dir;
+    vector<COORD> s_body;
+public:
+    header(COORD pos);
+    COORD getPos();
+    void setDir(int d);
+    void move_snake();
+    bool collide();
+    bool eatan(food &foods);
+    void grow();
+    vector<COORD> get_sbody();
+
+};
+
+#endif // HEADER_H
