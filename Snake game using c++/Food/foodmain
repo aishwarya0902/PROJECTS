@@ -1,0 +1,19 @@
+#include "food.h"
+#include <ctime>
+#include <stdlib.h>
+#define width 50
+#define height 30
+
+food::food()
+{
+    srand(time(NULL));
+    gen_food();
+
+}
+void food::gen_food(){
+    pos_f.X = rand()%width + 1;
+    pos_f.Y = rand()%height + 1;
+}
+COORD food::get_food_pos(){
+    return pos_f;
+}
