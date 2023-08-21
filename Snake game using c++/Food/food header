@@ -1,0 +1,15 @@
+#ifndef FOOD_H
+#define FOOD_H
+#include <windows.h>
+
+class food
+{
+private:
+    COORD pos_f;
+public:
+    food();
+    void gen_food();
+    COORD get_food_pos();
+};
+
+#endif // FOOD_H
